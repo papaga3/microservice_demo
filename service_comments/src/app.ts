@@ -17,8 +17,6 @@ const commentsByPostId: Map<string, Comment[]> = new Map<string, Comment[]>();
 
 app.get('/posts/:id/comments', (req, res) => {
   const comments = commentsByPostId.get(req.params.id) || [];
-  console.log(commentsByPostId);
-  console.log(comments);
   res.send(comments);
 });
 
