@@ -1,0 +1,21 @@
+{
+  "name": "posts",
+  "version": "1.0.0",
+  "description": "A microservice for handling blog posts",
+  "main": "index.js",
+  "author": "Quoc Huy, Nguyen",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.1",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2"
+  },
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "dev": "nodemon  src/app.ts"
+  }
+}
