@@ -1,9 +1,21 @@
 import express from 'express';
+import { randomBytes } from 'crypto';
+import bodyParser from 'body-parser';
 
 const app = express();
-const port = 5100;
+const port = 4100;
+app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
+interface Comment {
+  id: string;
+
+}
+
+app.get('/posts/:id/comments', (req, res) => {
+  res.send('Hello, TypeScript Node Express!');
+});
+
+app.post('/posts/:id/comments', (req, res) => {
   res.send('Hello, TypeScript Node Express!');
 });
 
