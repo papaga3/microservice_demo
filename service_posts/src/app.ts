@@ -29,7 +29,6 @@ app.get('/posts', cors(corsOptions),  (req, res) => {
 app.post('/posts', cors(corsOptions), (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { title } = req.body;
-  console.log(req.body);
   const newPost = { id: id, title: title }
   posts.set(id, newPost);
   res.status(201);

@@ -1,10 +1,18 @@
 import express from 'express';
 import { randomBytes } from 'crypto';
 import bodyParser from 'body-parser';
+import cors, { CorsOptions } from "cors";
 
 const app = express();
 const port = 4100;
 app.use(bodyParser.json());
+app.use(cors());
+
+const corsOptions: CorsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200
+}
+
 
 interface Comment {
   id: string;
@@ -15,12 +23,12 @@ interface Comment {
 // For example: "post1": [{ comment_1 }, { comment_2 }]
 const commentsByPostId: Map<string, Comment[]> = new Map<string, Comment[]>();
 
-app.get('/posts/:id/comments', (req, res) => {
+app.get('/posts/:id/comments', cors(corsOptions), (req, res) => {
   const comments = commentsByPostId.get(req.params.id) || [];
   res.send(comments);
 });
 
-app.post('/posts/:id/comments', (req, res) => {
+app.post('/posts/:id/comments', cors(corsOptions), (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { content } = req.body;
   const newComment = { id: id, content: content }
