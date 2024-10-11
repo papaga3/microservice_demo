@@ -39,11 +39,10 @@ app.post('/posts', cors(corsOptions), async (req, res) => {
         type: 'PostCreated',
         data: { id, title }
       });
+    res.status(201).send(newPost);
   } catch(err) {
-    console.log("Emit Post Event Error:: " + err);
+    console.log("Emit Post Event Error: " + err);
   }
-
-  res.status(201).send(newPost);
 });
 
 // Handle event

@@ -45,12 +45,11 @@ app.post('/posts/:id/comments', cors(corsOptions), async (req, res) => {
       type: "CommentCreated",
       data: { postId: req.params.id, id: id, content: content }
     });
+    res.status(201);
+    res.send(newComment);
   } catch(err) {
     console.log("Emit Comment Event Error: " + err);
   }
-
-  res.status(201);
-  res.send(newComment);
 });
 
 // Handle event
