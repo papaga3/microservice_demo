@@ -40,16 +40,16 @@ app.post('/posts/:id/comments', cors(corsOptions), async (req, res) => {
   comments.push({ id: id, content: content });
   commentsByPostId.set(req.params.id, comments);
 
-  try {
-    const eventRes = await axios.post(eventURL, {
-      type: "CommentCreated",
-      data: { postId: req.params.id, id: id, content: content }
-    });
-    res.status(201);
-    res.send(newComment);
-  } catch(err) {
+  axios.post(eventURL, {
+    type: "CommentCreated",
+    data: { postId: req.params.id, id: id, content: content }
+  }).catch(err => {
     console.log("Emit Comment Event Error: " + err);
-  }
+  });
+  
+  res.status(201);
+  res.send(newComment);
+  
 });
 
 // Handle event

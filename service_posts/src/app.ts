@@ -33,16 +33,14 @@ app.post('/posts', cors(corsOptions), async (req, res) => {
   const newPost = { id: id, title: title }
   posts.set(id, newPost);
 
-  try {
-    const eventRes = await axios.post(eventURL, 
-      { 
-        type: 'PostCreated',
-        data: { id, title }
-      });
-    res.status(201).send(newPost);
-  } catch(err) {
+  axios.post(eventURL,  { 
+    type: 'PostCreated',
+    data: { id, title }
+  }).catch(err => {
     console.log("Emit Post Event Error: " + err);
-  }
+  });
+
+  res.status(201).send(newPost);
 });
 
 // Handle event

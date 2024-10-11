@@ -19,25 +19,19 @@ const corsOptions: CorsOptions = {
 
 app.post('/events', cors(corsOptions), async (req, res) => {
   const event = req.body;
-
-  try {
-    const toPost = await axios.post(postURL, event);
-  } catch(err) {
-    console.log("Post Event Error: " + err);
-  }
   
-  try {
-    const toComment = await axios.post(commentURL, event);
-  } catch(err) {
+  axios.post(postURL, event).catch(err => {
+    console.log("Post Event Error: " + err);
+  });
+
+  axios.post(postURL, event).catch(err => {
     console.log("Comment Event Error: " + err);
-  }
+  });
 
-  try {
-    const toQuery = await axios.post(serviceURL, event);
-  } catch(err) {
+  axios.post(postURL, event).catch(err => {
     console.log("Query Event Error: " + err);
-  }
-
+  });
+  
   res.sendStatus(200);
 });
 
