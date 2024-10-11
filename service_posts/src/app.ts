@@ -2,13 +2,14 @@ import express from 'express';
 import { randomBytes } from 'crypto';
 import bodyParser from 'body-parser';
 import cors, { CorsOptions } from "cors";
-
-
+import axios from 'axios';
 
 interface Post {
  id: string;
  title: string; 
 }
+
+const eventURL = 'http://localhost:4500/events';
 
 const app = express();
 const port = 4000;
@@ -26,13 +27,23 @@ app.get('/posts', cors(corsOptions),  (req, res) => {
   res.send(JSON.stringify(Object.fromEntries(posts)));
 });
 
-app.post('/posts', cors(corsOptions), (req, res) => {
+app.post('/posts', cors(corsOptions), async (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { title } = req.body;
   const newPost = { id: id, title: title }
   posts.set(id, newPost);
-  res.status(201);
-  res.send(newPost);
+
+  try {
+    const eventRes = await axios.post(eventURL, 
+      { 
+        type: 'PostCreated',
+        data: { id, title }
+      });
+  } catch(err) {
+    console.log("Emit Post Event Error:: " + err);
+  }
+
+  res.status(201).send(newPost);
 });
 
 app.listen(port, () => {

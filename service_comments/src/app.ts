@@ -2,6 +2,9 @@ import express from 'express';
 import { randomBytes } from 'crypto';
 import bodyParser from 'body-parser';
 import cors, { CorsOptions } from "cors";
+import axios from 'axios';
+
+const eventURL = 'http://localhost:4500/events';
 
 const app = express();
 const port = 4100;
@@ -28,7 +31,7 @@ app.get('/posts/:id/comments', cors(corsOptions), (req, res) => {
   res.send(comments);
 });
 
-app.post('/posts/:id/comments', cors(corsOptions), (req, res) => {
+app.post('/posts/:id/comments', cors(corsOptions), async (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { content } = req.body;
   const newComment = { id: id, content: content }
@@ -36,6 +39,15 @@ app.post('/posts/:id/comments', cors(corsOptions), (req, res) => {
   const comments = commentsByPostId.get(req.params.id) || [];
   comments.push({ id: id, content: content });
   commentsByPostId.set(req.params.id, comments);
+
+  try {
+    const eventRes = await axios.post(eventURL, {
+      type: "CommentCreated",
+      data: { postId: req.params.id, id: id, content: content }
+    });
+  } catch(err) {
+    console.log("Emit Comment Event Error: " + err);
+  }
 
   res.status(201);
   res.send(newComment);
