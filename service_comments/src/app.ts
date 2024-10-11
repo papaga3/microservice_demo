@@ -53,6 +53,12 @@ app.post('/posts/:id/comments', cors(corsOptions), async (req, res) => {
   res.send(newComment);
 });
 
+// Handle event
+app.post('/events', cors(corsOptions), (req, res) => {
+  console.log('Event type: ' + req.body.type);
+  res.send({});
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

@@ -1,12 +1,11 @@
 {
-  "name": "eventbus",
+  "name": "query_service",
   "version": "1.0.0",
-  "description": "A simple event bus",
+  "description": "A simple query service",
   "main": "index.js",
   "author": "Quoc Huy, Nguyen",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.7.7",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "typescript": "^5.6.3"

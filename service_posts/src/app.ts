@@ -46,6 +46,12 @@ app.post('/posts', cors(corsOptions), async (req, res) => {
   res.status(201).send(newPost);
 });
 
+// Handle event
+app.post('/events', cors(corsOptions), (req, res) => {
+  console.log('Event type: ' + req.body.type);
+  res.send({});
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
